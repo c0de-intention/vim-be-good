@@ -16,6 +16,7 @@ local games = {
     "surroundadd",
     "surroundchange",
     "surroundremove",
+    "swapsy",
     "random",
 }
 

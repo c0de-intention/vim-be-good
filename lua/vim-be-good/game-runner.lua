@@ -7,6 +7,7 @@ local SurroundAdd = require("vim-be-good.games.surroundadd");
 local SurroundChange = require("vim-be-good.games.surroundchange");
 local SurroundRemove = require("vim-be-good.games.surroundremove");
 local Swapsy = require("vim-be-good.games.swapsy");
+local ReplacyWords = require("vim-be-good.games.replacywords");
 local CiRound = require("vim-be-good.games.ci");
 local HjklRound = require("vim-be-good.games.hjkl");
 local WhackAMoleRound = require("vim-be-good.games.whackamole");
@@ -45,6 +46,10 @@ local games = {
 
     surroundchange = function(difficulty, window)
         return SurroundChange:new(difficulty, window)
+    end,
+
+    replacywords = function(difficulty, window)
+        return ReplacyWords:new(difficulty, window)
     end,
 
     surroundremove = function(difficulty, window)

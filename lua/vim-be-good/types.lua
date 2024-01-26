@@ -18,6 +18,7 @@ local games = {
     "surroundremove",
     "swapsy",
     "replacywords",
+    "replacylines",
     "random",
 }
 

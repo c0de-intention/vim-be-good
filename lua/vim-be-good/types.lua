@@ -15,6 +15,7 @@ local games = {
     "whackamole",
     "surroundadd",
     "surroundchange",
+    "surroundremove",
     "random",
 }
 

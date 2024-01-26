@@ -3,6 +3,7 @@ local types = require("vim-be-good.types");
 local GameUtils = require("vim-be-good.game-utils");
 local RelativeRound = require("vim-be-good.games.relative");
 local WordRound = require("vim-be-good.games.words");
+local SurroundAdd = require("vim-be-good.games.surroundadd");
 local CiRound = require("vim-be-good.games.ci");
 local HjklRound = require("vim-be-good.games.hjkl");
 local WhackAMoleRound = require("vim-be-good.games.whackamole");
@@ -33,6 +34,10 @@ local games = {
 
     words = function(difficulty, window)
         return WordRound:new(difficulty, window)
+    end,
+
+    surroundadd = function(difficulty, window)
+        return SurroundAdd:new(difficulty, window)
     end,
 
     hjkl = function(difficulty, window)
@@ -183,7 +188,7 @@ function GameRunner:checkForNext()
 
     -- todo implement this correctly....
     if foundKey then
-       self.onFinished(self, foundKey)
+        self.onFinished(self, foundKey)
     else
         log.info("GameRunner:checkForNext Some line was changed that is insignificant, rerendering")
         self.window.buffer:render(expectedLines)
@@ -313,7 +318,7 @@ function GameRunner:run()
 
     log.info("Setting current line to", cursorLine, cursorCol)
     if cursorLine > 0 then
-        vim.api.nvim_win_set_cursor(0, {cursorLine, cursorCol})
+        vim.api.nvim_win_set_cursor(0, { cursorLine, cursorCol })
     end
 
     self.startTime = GameUtils.getTime()
@@ -334,8 +339,6 @@ function GameRunner:run()
 
         self:endRound()
     end, roundConfig.roundTime)
-
 end
 
 return GameRunner
-

@@ -9,6 +9,7 @@ local difficulty = {
 
 local games = {
     "words",
+    "surroundadd",
     "ci{",
     "relative",
     "hjkl",
@@ -20,4 +21,3 @@ return {
     difficulty = difficulty,
     games = games
 }
-

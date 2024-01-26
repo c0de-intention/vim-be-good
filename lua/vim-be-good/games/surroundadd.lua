@@ -3,7 +3,7 @@ local log = require("vim-be-good.log")
 local gameLineCount = 5
 
 local instructions = {
-    "add curly brackets around the words to make a json object.",
+    "Add curly brackets around the words to make a json object.",
 }
 
 local SurroundAdd = {}

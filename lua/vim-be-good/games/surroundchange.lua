@@ -3,7 +3,7 @@ local log = require("vim-be-good.log")
 local gameLineCount = 5
 
 local instructions = {
-    "swap the single quotation marks for double quotation marks to make a json object.",
+    "Swap the single quotation marks for double quotation marks.",
 }
 
 local SurroundChange = {}
@@ -29,7 +29,7 @@ function SurroundChange:getConfig()
     local two = GameUtils.getRandomWord()
     local round = {}
     local expected = {}
-    -- question looks like: "oar" : "qar"
+    -- question looks like: {"oar" : 'qar'}
     local question = "{\"" .. one .. "\" : \'" .. two .. "\'}"
     -- answer looks like: {"oar":"qar"}
     local answer = "{\"" .. one .. "\":\"" .. two .. "\"}"

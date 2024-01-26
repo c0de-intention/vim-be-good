@@ -3,7 +3,7 @@ local log = require("vim-be-good.log")
 local gameLineCount = 5
 
 local instructions = {
-    "swap the words",
+    "Swap the words.",
 }
 
 local Swapsy = {}
@@ -30,7 +30,7 @@ function Swapsy:getConfig()
     local round = {}
     local expected = {}
     -- question looks like: ["oar" : "qar"]
-    local question = "[\"" .. one .. "\" , \"" .. two .. "\"]"
+    local question = "[\"" .. one .. "\", \"" .. two .. "\"]"
     -- answer looks like: ["qar" : "oar"]
     local answer = "[\"" .. two .. "\",\"" .. one .. "\"]"
     table.insert(round, question);

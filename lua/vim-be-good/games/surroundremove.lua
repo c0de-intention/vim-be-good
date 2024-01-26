@@ -29,7 +29,7 @@ function SurroundRemove:getConfig()
     local two = GameUtils.getRandomWord()
     local round = {}
     local expected = {}
-    -- question looks like: "oar" : "qar"
+    -- question looks like: [{"oar":"qar"}]
     local question = "[{\"" .. one .. "\" : \"" .. two .. "\"}]"
     -- answer looks like: {"oar":"qar"}
     local answer = "{\"" .. one .. "\":\"" .. two .. "\"}"

@@ -9,11 +9,12 @@ local difficulty = {
 
 local games = {
     "words",
-    "surroundadd",
     "ci{",
     "relative",
     "hjkl",
     "whackamole",
+    "surroundadd",
+    "surroundchange",
     "random",
 }
 

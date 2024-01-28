@@ -6,9 +6,9 @@ local pos_source = 0
 
 local answer_line = ""
 
-local MacroMadness = {}
-function MacroMadness:new(difficulty, window)
-    log.info("MacroMadness", difficulty, window)
+local MacroMadnessLines = {}
+function MacroMadnessLines:new(difficulty, window)
+    log.info("MacroMadnessLines", difficulty, window)
     local round = {
         window = window,
         difficulty = difficulty,
@@ -18,7 +18,7 @@ function MacroMadness:new(difficulty, window)
     return setmetatable(round, self)
 end
 
-function MacroMadness:getInstructions()
+function MacroMadnessLines:getInstructions()
     return {
         "Use macros to make the lines match the answer.",
         "Swap: " .. pos_source .. " with: " .. pos_target,
@@ -27,7 +27,7 @@ function MacroMadness:getInstructions()
     }
 end
 
-function MacroMadness:getConfig()
+function MacroMadnessLines:getConfig()
     log.info("getConfig", self.difficulty, GameUtils.difficultyToTime[self.difficulty])
     local words = {}
     local word_count = 3
@@ -80,7 +80,7 @@ function MacroMadness:getConfig()
     return self.config
 end
 
-function MacroMadness:checkForWin()
+function MacroMadnessLines:checkForWin()
     local lines = self.window.buffer:getGameLines()
     local trimmed_lines = GameUtils.trimLines(lines)
     local concatenated = table.concat(GameUtils.filterEmptyLines(trimmed_lines), "")
@@ -97,15 +97,15 @@ function MacroMadness:checkForWin()
     return winner
 end
 
-function MacroMadness:render()
+function MacroMadnessLines:render()
     local cursorIdx = 6
 
     local lines = self.config.question_lines
     return lines, cursorIdx
 end
 
-function MacroMadness:name()
-    return "macromadness"
+function MacroMadnessLines:name()
+    return "MacroMadnessLines"
 end
 
-return MacroMadness
+return MacroMadnessLines

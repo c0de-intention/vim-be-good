@@ -19,7 +19,8 @@ local games = {
     "swapsy",
     "replacywords",
     "replacylines",
-    "macromadness",
+    "macromadnesswords",
+    "macromadnesslines",
     "random",
 }
 

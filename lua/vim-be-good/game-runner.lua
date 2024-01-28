@@ -9,7 +9,8 @@ local SurroundRemove = require("vim-be-good.games.surroundremove");
 local Swapsy = require("vim-be-good.games.swapsy");
 local ReplacyWords = require("vim-be-good.games.replacywords");
 local ReplacyLines = require("vim-be-good.games.replacylines");
-local MacroMadness = require("vim-be-good.games.macromadness");
+local MacroMadnessLines = require("vim-be-good.games.macromadnesslines");
+local MacroMadnessWords = require("vim-be-good.games.macromadnesswords");
 local CiRound = require("vim-be-good.games.ci");
 local HjklRound = require("vim-be-good.games.hjkl");
 local WhackAMoleRound = require("vim-be-good.games.whackamole");
@@ -58,8 +59,12 @@ local games = {
         return ReplacyLines:new(difficulty, window)
     end,
 
-    macromadness = function(difficulty, window)
-        return MacroMadness:new(difficulty, window)
+    macromadnesslines = function(difficulty, window)
+        return MacroMadnessLines:new(difficulty, window)
+    end,
+
+    macromadnesswords = function(difficulty, window)
+        return MacroMadnessWords:new(difficulty, window)
     end,
 
     surroundremove = function(difficulty, window)

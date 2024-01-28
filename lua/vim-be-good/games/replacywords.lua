@@ -3,12 +3,12 @@ local log = require("vim-be-good.log")
 local gameLineCount = 5
 
 local instructions = {
-    "Replace the words with the given word.",
+    "Replace the other words with the first word.",
 }
 
 local ReplacyWords = {}
 function ReplacyWords:new(difficulty, window)
-    log.info("NewWords", difficulty, window)
+    log.info("NewReplacyWords", difficulty, window)
     local round = {
         window = window,
         difficulty = difficulty,
@@ -25,17 +25,18 @@ end
 function ReplacyWords:getConfig()
     log.info("getConfig", self.difficulty, GameUtils.difficultyToTime[self.difficulty])
 
-    local one = GameUtils.getRandomWord()
-    local two = "replace_me"
+    local correct_word = GameUtils.getRandomWord()
+    local wrong_word = "replace_me"
     local round = {}
     local expected = {}
     -- question looks like:
     -- oar
     -- replace_me
     -- replace_me
-    local question_ln_1 = one
-    local question_ln_2 = two
-    local question_ln_3 = two
+    -- TODO: make this dynamic
+    local question_ln_1 = correct_word
+    local question_ln_2 = wrong_word
+    local question_ln_3 = wrong_word
 
     table.insert(round, question_ln_1);
     table.insert(round, question_ln_2);
@@ -44,9 +45,9 @@ function ReplacyWords:getConfig()
     -- oar
     -- oar
     -- oar
-    local answer_ln_1 = question_ln_1
-    local answer_ln_2 = question_ln_1
-    local answer_ln_3 = question_ln_1
+    local answer_ln_1 = correct_word
+    local answer_ln_2 = correct_word
+    local answer_ln_3 = correct_word
     table.insert(expected, answer_ln_1)
     table.insert(expected, answer_ln_2)
     table.insert(expected, answer_ln_3)

@@ -8,7 +8,7 @@ local instructions = {
 
 local SurroundChange = {}
 function SurroundChange:new(difficulty, window)
-    log.info("NewWords", difficulty, window)
+    log.info("NewSurroundChange", difficulty, window)
     local round = {
         window = window,
         difficulty = difficulty,

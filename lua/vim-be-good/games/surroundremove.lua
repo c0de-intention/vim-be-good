@@ -8,7 +8,7 @@ local instructions = {
 
 local SurroundRemove = {}
 function SurroundRemove:new(difficulty, window)
-    log.info("NewWords", difficulty, window)
+    log.info("NewSurroundRemove", difficulty, window)
     local round = {
         window = window,
         difficulty = difficulty,

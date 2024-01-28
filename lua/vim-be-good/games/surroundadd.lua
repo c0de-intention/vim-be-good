@@ -8,7 +8,7 @@ local instructions = {
 
 local SurroundAdd = {}
 function SurroundAdd:new(difficulty, window)
-    log.info("NewWords", difficulty, window)
+    log.info("NewSurroundAdd", difficulty, window)
     local round = {
         window = window,
         difficulty = difficulty,

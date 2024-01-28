@@ -8,7 +8,7 @@ local instructions = {
 
 local Swapsy = {}
 function Swapsy:new(difficulty, window)
-    log.info("NewWords", difficulty, window)
+    log.info("NewSwapsy", difficulty, window)
     local round = {
         window = window,
         difficulty = difficulty,

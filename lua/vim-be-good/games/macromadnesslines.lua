@@ -8,7 +8,7 @@ local answer_line = ""
 
 local MacroMadnessLines = {}
 function MacroMadnessLines:new(difficulty, window)
-    log.info("MacroMadnessLines", difficulty, window)
+    log.info("NewMacroMadnessLines", difficulty, window)
     local round = {
         window = window,
         difficulty = difficulty,
@@ -87,7 +87,6 @@ function MacroMadnessLines:checkForWin()
     local lowercased = concatenated:lower()
     local trimmed = lowercased:gsub("%s+", "")
     local answer_trimmed = self.config.expected:gsub("%s+", "")
-    print('trimmed', trimmed, 'expected', answer_trimmed)
     local winner = trimmed == answer_trimmed
 
     if winner then

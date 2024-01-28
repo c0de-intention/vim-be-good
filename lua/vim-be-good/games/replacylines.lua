@@ -9,7 +9,7 @@ local instructions = {
 
 local ReplacyLines = {}
 function ReplacyLines:new(difficulty, window)
-    log.info("NewWords", difficulty, window)
+    log.info("NewReplacyLines", difficulty, window)
     local round = {
         window = window,
         difficulty = difficulty,
@@ -60,7 +60,6 @@ function ReplacyLines:checkForWin()
     local concatenated = table.concat(GameUtils.filterEmptyLines(trimmed_lines), "")
     local lowercased = concatenated:lower()
     local trimmed = lowercased:gsub("%s+", "")
-    print('trimmed', trimmed, 'expected', self.config.expected)
     local winner = trimmed == self.config.expected
 
     if winner then

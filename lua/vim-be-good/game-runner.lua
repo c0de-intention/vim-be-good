@@ -139,6 +139,56 @@ local function getRoundHint(round)
     return gameHints[roundName]
 end
 
+local function wrapText(text, maxWidth)
+    if not text or text == "" then
+        return text
+    end
+
+    maxWidth = maxWidth or 72
+    local lines = {}
+    local current = ""
+
+    for word in string.gmatch(text, "%S+") do
+        while vim.fn.strdisplaywidth(word) > maxWidth do
+            local head = string.sub(word, 1, maxWidth - 1)
+            if current ~= "" then
+                table.insert(lines, current)
+                current = ""
+            end
+            table.insert(lines, head)
+            word = string.sub(word, maxWidth)
+        end
+
+        local candidate = current == "" and word or (current .. " " .. word)
+        if vim.fn.strdisplaywidth(candidate) <= maxWidth then
+            current = candidate
+        else
+            if current ~= "" then
+                table.insert(lines, current)
+            end
+            current = word
+        end
+    end
+
+    if current ~= "" then
+        table.insert(lines, current)
+    end
+
+    return table.concat(lines, "\n")
+end
+
+local function getHintWrapWidth()
+    local cols = vim.o.columns or 120
+    local adaptive = math.floor(cols * 0.30)
+    if adaptive < 24 then
+        return 24
+    end
+    if adaptive > 40 then
+        return 40
+    end
+    return adaptive
+end
+
 -- games table, difficulty string
 function GameRunner:new(selectedGames, difficulty, window, onFinished)
     log.info("New", difficulty)
@@ -415,7 +465,7 @@ function GameRunner:run()
     if bufnr ~= 0 then
         vim.keymap.set("n", "g?", function()
             if roundHint then
-                vim.notify(roundHint, vim.log.levels.INFO, {
+                vim.notify(wrapText(roundHint, getHintWrapWidth()), vim.log.levels.INFO, {
                     title = "vim-be-good hint",
                     timeout = 10000,
                 })
@@ -428,13 +478,6 @@ function GameRunner:run()
         end, { buffer = bufnr, silent = true, desc = "VimBeGood hint" })
     end
 
-    if roundHint then
-        vim.notify(roundHint, vim.log.levels.INFO, {
-            title = "vim-be-good hint",
-            timeout = 5000,
-        })
-    end
-
     cursorLine = cursorLine or 0
     cursorCol = cursorCol or 0
 
@@ -445,6 +488,11 @@ function GameRunner:run()
     log.info("Setting current line to", cursorLine, cursorCol)
     if cursorLine > 0 then
         vim.api.nvim_win_set_cursor(0, { cursorLine, cursorCol })
+    end
+
+    -- Keep instructions visible on noob without overriding gameplay cursor target.
+    if self.config.difficulty == "noob" then
+        vim.fn.winrestview({ topline = 1, leftcol = 0 })
     end
 
     self.startTime = GameUtils.getTime()

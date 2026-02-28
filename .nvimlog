@@ -1,0 +1,13 @@
+WRN 2026-02-28T16:14:12.540 ?.10342    server_start:199: Failed to start server: operation not permitted: /var/folders/nv/mq528hqj56ndbsf0pfd2nm3h0000gn/T/nvim.gavinboyd/y9Xcos/nvim.10342.0
+WRN 2026-02-28T16:15:39.478 ?.13931    server_start:199: Failed to start server: operation not permitted: /var/folders/nv/mq528hqj56ndbsf0pfd2nm3h0000gn/T/nvim.gavinboyd/6ja0c5/nvim.13931.0
+WRN 2026-02-28T16:16:48.902 ?.17246    server_start:199: Failed to start server: operation not permitted: /var/folders/nv/mq528hqj56ndbsf0pfd2nm3h0000gn/T/nvim.gavinboyd/F0MJxA/nvim.17246.0
+WRN 2026-02-28T16:18:10.059 ?.20740    server_start:199: Failed to start server: operation not permitted: /var/folders/nv/mq528hqj56ndbsf0pfd2nm3h0000gn/T/nvim.gavinboyd/0tfkV2/nvim.20740.0
+WRN 2026-02-28T16:20:08.321 ?.28792    server_start:199: Failed to start server: operation not permitted: /var/folders/nv/mq528hqj56ndbsf0pfd2nm3h0000gn/T/nvim.gavinboyd/aAFH91/nvim.28792.0
+WRN 2026-02-28T16:26:18.440 ?.47454    server_start:199: Failed to start server: operation not permitted: /var/folders/nv/mq528hqj56ndbsf0pfd2nm3h0000gn/T/nvim.gavinboyd/eNEvh7/nvim.47454.0
+WRN 2026-02-28T16:27:38.958 ?.49613    server_start:199: Failed to start server: operation not permitted: /var/folders/nv/mq528hqj56ndbsf0pfd2nm3h0000gn/T/nvim.gavinboyd/UfnVao/nvim.49613.0
+WRN 2026-02-28T16:29:41.867 ?.53980    server_start:199: Failed to start server: operation not permitted: /var/folders/nv/mq528hqj56ndbsf0pfd2nm3h0000gn/T/nvim.gavinboyd/oCSejj/nvim.53980.0
+WRN 2026-02-28T17:23:49.388 ?.94904    server_start:199: Failed to start server: operation not permitted: /tmp/nvim-vbg-live
+WRN 2026-02-28T17:23:52.384 ui.94903   tui_stop:654: TUI: timed out waiting for DA1 response
+WRN 2026-02-28T17:23:59.945 ?.95594    server_start:199: Failed to start server: operation not permitted: /Users/gavinboyd/Projects/vim-be-good/.nvim-vbg-live.sock
+WRN 2026-02-28T17:24:00.948 ui.95588   tui_stop:654: TUI: timed out waiting for DA1 response
+WRN 2026-02-28T17:50:22.707 ?.63215    server_start:199: Failed to start server: operation not permitted: /var/folders/nv/mq528hqj56ndbsf0pfd2nm3h0000gn/T/nvim.gavinboyd/MNiLzb/nvim.63215.0

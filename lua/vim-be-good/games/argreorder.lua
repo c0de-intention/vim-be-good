@@ -4,7 +4,8 @@ local log = require("vim-be-good.log")
 local gameLineCount = 10
 
 local instructions = {
-  "Reorder function call arguments to match the target order.",
+  "Make the call on line 7 match the desired call on line 5.",
+  "Move one argument chunk at a time (including commas/spaces).",
 }
 
 local orders = {
@@ -51,17 +52,18 @@ function ArgReorder:getConfig()
   local sourceArgs = { a, b, c, d }
   local order = orders[math.random(1, #orders)]
   local targetArgs = applyOrder(sourceArgs, order)
+  local desiredCall = fnName .. "(" .. table.concat(targetArgs, ", ") .. ")"
 
   local lines = GameUtils.createEmpty(gameLineCount)
-  lines[5] = "target order: " .. table.concat(order, ",")
+  lines[5] = "target args: " .. table.concat(targetArgs, ", ")
   lines[7] = fnName .. "(" .. table.concat(sourceArgs, ", ") .. ")"
 
   local answer = GameUtils.createEmpty(gameLineCount)
   answer[5] = lines[5]
-  answer[7] = fnName .. "(" .. table.concat(targetArgs, ", ") .. ")"
+  answer[7] = desiredCall
 
   local expected = table.concat(GameUtils.filterEmptyLines(answer), ""):lower():gsub("%s+", "")
-  local hint = "Try text objects + motions (f, dt, p) or a macro for fast argument swaps."
+  local hint = "Put cursor on arg start. Use df, (or dF, for last arg) to cut. Jump to target comma with f, then paste P/p."
 
   self.config = {
     roundTime = math.floor(GameUtils.difficultyToTime[self.difficulty] * 1.8),

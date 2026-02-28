@@ -12,7 +12,7 @@ local difficultyTimeMultiplier = {
 }
 
 local currentInstructions = {
-    "Use text objects to change inside containers to bar.",
+    "Change inside containers to bar.",
 }
 
 local function shuffle(items)
@@ -81,11 +81,12 @@ function TextObjectStorm:getConfig()
 
     local expected = table.concat(GameUtils.filterEmptyLines(answer), ""):lower():gsub("%s+", "")
     currentInstructions = {
-        "Use text objects to change inside containers to bar.",
-        "Round order is shuffled; prefer " ..
-            variants[1].label .. " " .. variants[2].label .. " " .. variants[3].label .. " " .. variants[4].label ..
-            " (and use . when it helps).",
+        "Change inside containers to bar.",
     }
+
+    local hint = "Text-object sequence this round: " ..
+        variants[1].label .. " " .. variants[2].label .. " " .. variants[3].label .. " " .. variants[4].label ..
+        "; use . to repeat when possible."
 
     local baseRoundTime = GameUtils.difficultyToTime[self.difficulty]
     local multiplier = difficultyTimeMultiplier[self.difficulty] or 1.0
@@ -95,6 +96,7 @@ function TextObjectStorm:getConfig()
         question_lines = lines,
         answer_lines = answer,
         expected = expected,
+        hint = hint,
     }
 
     return self.config

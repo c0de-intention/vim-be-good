@@ -290,7 +290,6 @@ function GlobalOps:getConfig()
 
   currentInstructions = {
     "Batch-edit only lines that " .. patternLabel .. ": " .. operationText .. ".",
-    "Press g? for round hint.",
   }
 
   local baseRoundTime = GameUtils.difficultyToTime[self.difficulty]
@@ -323,16 +322,6 @@ function GlobalOps:checkForWin()
 end
 
 function GlobalOps:render()
-  local bufnr = self.window and self.window.bufh or 0
-  if bufnr ~= 0 and self.config and self.config.hint then
-    vim.keymap.set("n", "g?", function()
-      vim.notify(self.config.hint, vim.log.levels.INFO, {
-        title = "vim-be-good globalops",
-        timeout = 10000,
-      })
-    end, { buffer = bufnr, silent = true, desc = "GlobalOps hint" })
-  end
-
   local cursorIdx = 5
   return self.config.question_lines, cursorIdx
 end

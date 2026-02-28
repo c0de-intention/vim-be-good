@@ -55,6 +55,11 @@ The fastest route is text objects like `ci"` `ci(` `ci[` `ci{`.
 To play `globalops` you need to change only `task_... = pending` lines to done.
 The intended route is a batch operation with `:g`.
 
+To play `argreorder` you need to reorder function call arguments to match the
+target order shown in the round.
+
+For all games, press `g?` for a round hint notification.
+
 ## Optimal Patterns Guide
 
 These games are designed to reward high-frequency editing habits where a single

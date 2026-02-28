@@ -23,6 +23,7 @@ local games = {
     "macromadnesslines",
     "textobjectstorm",
     "globalops",
+    "argreorder",
     "random",
 }
 

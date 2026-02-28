@@ -13,6 +13,7 @@ local MacroMadnessLines = require("vim-be-good.games.macromadnesslines");
 local MacroMadnessWords = require("vim-be-good.games.macromadnesswords");
 local TextObjectStorm = require("vim-be-good.games.textobjectstorm");
 local GlobalOps = require("vim-be-good.games.globalops");
+local ArgReorder = require("vim-be-good.games.argreorder");
 local CiRound = require("vim-be-good.games.ci");
 local HjklRound = require("vim-be-good.games.hjkl");
 local WhackAMoleRound = require("vim-be-good.games.whackamole");
@@ -81,6 +82,10 @@ local games = {
         return GlobalOps:new(difficulty, window)
     end,
 
+    argreorder = function(difficulty, window)
+        return ArgReorder:new(difficulty, window)
+    end,
+
     surroundremove = function(difficulty, window)
         return SurroundRemove:new(difficulty, window)
     end,
@@ -99,12 +104,39 @@ local games = {
 }
 
 local runningId = 0
+local gameHints = {
+    ["ci{"] = "Use text objects: ci{ / ci[ to replace inside delimiters quickly.",
+    relative = "Use relative jumps like 10j, 5k, gg/G, then delete the target line.",
+    words = "Use motions plus delete (dw, dW, de, db) to remove only the odd word.",
+    surroundadd = "Use surround/text-object style edits to add braces efficiently.",
+    surroundchange = "Use surround change (cs'\\\") or text objects to swap quote style.",
+    surroundremove = "Use surround delete (ds]) or precise text-object deletes.",
+    swapsy = "Use text objects and put motions to swap values quickly.",
+    replacywords = "Use change/replace flows (cw, caw, r) and repeat with . when possible.",
+    replacylines = "Use linewise changes and repeat (cc, C, .) instead of full retyping.",
+    macromadnesslines = "Record a macro (qq ... q) and replay with @q to batch the same edit.",
+    macromadnesswords = "Record once, replay many times: macros are the fastest path here.",
+    textobjectstorm = "Text objects are fastest: ci\\\", ci(, ci[, ci{ and then repeat with .",
+    hjkl = "Navigate only with h/j/k/l and delete with x.",
+    whackamole = "Jump to the caret target quickly, then toggle its case (~) to finish.",
+    globalops = "Use :g / :v batch operations; press g? again to re-open this hint.",
+    argreorder = "Use f/F/t motions plus d/p or text objects to reorder args with minimal moves.",
+}
 
 local GameRunner = {}
 
 local function getGame(game, difficulty, window)
     log.info("getGame", game, difficulty, window)
     return games[game](difficulty, window)
+end
+
+local function getRoundHint(round)
+    if round and round.config and round.config.hint then
+        return round.config.hint
+    end
+
+    local roundName = round:name()
+    return gameHints[roundName]
 end
 
 -- games table, difficulty string
@@ -370,6 +402,7 @@ function GameRunner:run()
 
     local roundConfig = self.round:getConfig()
     log.info("RoundName:", self.round:name())
+    local roundHint = getRoundHint(self.round)
 
     self.window.buffer:debugLine(string.format(
         "Round %d / %d", self.currentRound, self.config.roundCount))
@@ -377,6 +410,30 @@ function GameRunner:run()
     self.window.buffer:setInstructions(self.round.getInstructions())
     local lines, cursorLine, cursorCol = self.round:render()
     self.window.buffer:render(lines)
+
+    local bufnr = self.window and self.window.bufh or 0
+    if bufnr ~= 0 then
+        vim.keymap.set("n", "g?", function()
+            if roundHint then
+                vim.notify(roundHint, vim.log.levels.INFO, {
+                    title = "vim-be-good hint",
+                    timeout = 10000,
+                })
+            else
+                vim.notify("No hint for this round.", vim.log.levels.INFO, {
+                    title = "vim-be-good hint",
+                    timeout = 4000,
+                })
+            end
+        end, { buffer = bufnr, silent = true, desc = "VimBeGood hint" })
+    end
+
+    if roundHint then
+        vim.notify(roundHint, vim.log.levels.INFO, {
+            title = "vim-be-good hint",
+            timeout = 5000,
+        })
+    end
 
     cursorLine = cursorLine or 0
     cursorCol = cursorCol or 0

@@ -3,7 +3,7 @@ local log = require("vim-be-good.log")
 local gameLineCount = 5
 
 local instructions = {
-    "use w and dw to delete the different word in the line",
+    "Delete the different word in the line.",
 }
 
 local Words = {}
@@ -81,4 +81,3 @@ function Words:name()
 end
 
 return Words
-

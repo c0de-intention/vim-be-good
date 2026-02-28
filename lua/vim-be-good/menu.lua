@@ -43,8 +43,8 @@ function Menu:new(window, onResults)
         buffer = window.buffer,
         onResults = onResults,
 
-        -- easy
-        difficulty = types.difficulty[2],
+        -- noob
+        difficulty = types.difficulty[1],
 
         -- relative
         game = types.games[1],
@@ -167,4 +167,3 @@ function Menu:close()
 end
 
 return Menu
-

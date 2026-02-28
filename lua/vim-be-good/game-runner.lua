@@ -11,6 +11,8 @@ local ReplacyWords = require("vim-be-good.games.replacywords");
 local ReplacyLines = require("vim-be-good.games.replacylines");
 local MacroMadnessLines = require("vim-be-good.games.macromadnesslines");
 local MacroMadnessWords = require("vim-be-good.games.macromadnesswords");
+local TextObjectStorm = require("vim-be-good.games.textobjectstorm");
+local GlobalOps = require("vim-be-good.games.globalops");
 local CiRound = require("vim-be-good.games.ci");
 local HjklRound = require("vim-be-good.games.hjkl");
 local WhackAMoleRound = require("vim-be-good.games.whackamole");
@@ -28,6 +30,10 @@ local endStates = {
 local states = {
     playing = 1,
     gameEnd = 2,
+}
+
+local successAdvanceDelayMs = {
+    noob = 5000,
 }
 
 local games = {
@@ -65,6 +71,14 @@ local games = {
 
     macromadnesswords = function(difficulty, window)
         return MacroMadnessWords:new(difficulty, window)
+    end,
+
+    textobjectstorm = function(difficulty, window)
+        return TextObjectStorm:new(difficulty, window)
+    end,
+
+    globalops = function(difficulty, window)
+        return GlobalOps:new(difficulty, window)
     end,
 
     surroundremove = function(difficulty, window)
@@ -282,7 +296,27 @@ function GameRunner:endRound(success)
         return
     end
 
-    vim.schedule_wrap(function() self:run() end)()
+    local delayMs = 0
+    if success then
+        delayMs = successAdvanceDelayMs[self.config.difficulty] or 0
+    end
+
+    if success and delayMs > 0 then
+        vim.notify("Level Complete!", vim.log.levels.INFO, {
+            title = "vim-be-good",
+            timeout = 3000,
+        })
+    end
+
+    if delayMs > 0 then
+        vim.defer_fn(function()
+            if self.window:isValid() then
+                vim.schedule_wrap(function() self:run() end)()
+            end
+        end, delayMs)
+    else
+        vim.schedule_wrap(function() self:run() end)()
+    end
 end
 
 function GameRunner:close()

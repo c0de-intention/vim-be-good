@@ -49,6 +49,35 @@ To play `whackamole` you need to navigate to the character with the caret under
 it as fast as possible. Once you have reached the character, flip the
 character's case to complete the round.
 
+To play `textobjectstorm` you need to change inside mixed containers to `bar`.
+The fastest route is text objects like `ci"` `ci(` `ci[` `ci{`.
+
+To play `globalops` you need to change only `task_... = pending` lines to done.
+The intended route is a batch operation with `:g`.
+
+## Optimal Patterns Guide
+
+These games are designed to reward high-frequency editing habits where a single
+command updates many targets.
+
+`textobjectstorm`
+
+- Goal: transform container contents to `bar` while keeping delimiters.
+- Preferred patterns: `ci"` `ci(` `ci[` `ci{`, then use `.` where repetition fits.
+- Example sequence pattern:
+  - On `"word"` use `ci"bar<Esc>`
+  - On `(word)` use `ci(bar<Esc>`
+  - On `[word]` use `ci[bar<Esc>`
+  - On `{word}` use `ci{bar<Esc>`
+
+`globalops`
+
+- Goal: update only matching lines in one pass.
+- Preferred pattern: `:g/^task_/s/pending/done/`
+- Useful variants:
+  - Whole file substitute when all lines should change: `:%s/pending/done/g`
+  - Limited range substitute: `:5,10s/pending/done/g`
+
 ## Installation
 
 ## MUST USE NEOVIM 5.x!!!!!!

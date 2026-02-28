@@ -21,6 +21,8 @@ local games = {
     "replacylines",
     "macromadnesswords",
     "macromadnesslines",
+    "textobjectstorm",
+    "globalops",
     "random",
 }
 

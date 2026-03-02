@@ -15,6 +15,26 @@ local orders = {
   { 2, 4, 3, 1 },
   { 3, 4, 1, 2 },
 }
+local languages = {
+  { name = "typescript", filetype = "typescript", comment = "//" },
+  { name = "python", filetype = "python", comment = "#" },
+  { name = "rust", filetype = "rust", comment = "//" },
+}
+
+local function pickLanguage(lastLanguageName)
+  if #languages == 1 then
+    return languages[1]
+  end
+
+  local picked = languages[math.random(1, #languages)]
+  local attempts = 0
+  while picked.name == lastLanguageName and attempts < 8 do
+    picked = languages[math.random(1, #languages)]
+    attempts = attempts + 1
+  end
+
+  return picked
+end
 
 local ArgReorder = {}
 function ArgReorder:new(difficulty, window)
@@ -22,6 +42,7 @@ function ArgReorder:new(difficulty, window)
   local round = {
     window = window,
     difficulty = difficulty,
+    lastLanguageName = nil,
   }
 
   self.__index = self
@@ -52,13 +73,29 @@ function ArgReorder:getConfig()
   local sourceArgs = { a, b, c, d }
   local order = orders[math.random(1, #orders)]
   local targetArgs = applyOrder(sourceArgs, order)
-  local desiredCall = fnName .. "(" .. table.concat(targetArgs, ", ") .. ")"
+  local language = pickLanguage(self.lastLanguageName)
+  self.lastLanguageName = language.name
+
+  local desiredCall = ""
+  local currentCall = ""
+  if language.name == "typescript" then
+    desiredCall = "const out = " .. fnName .. "(" .. table.concat(targetArgs, ", ") .. ");"
+    currentCall = "const out = " .. fnName .. "(" .. table.concat(sourceArgs, ", ") .. ");"
+  elseif language.name == "python" then
+    desiredCall = "out = " .. fnName .. "(" .. table.concat(targetArgs, ", ") .. ")"
+    currentCall = "out = " .. fnName .. "(" .. table.concat(sourceArgs, ", ") .. ")"
+  else
+    desiredCall = "let out = " .. fnName .. "(" .. table.concat(targetArgs, ", ") .. ");"
+    currentCall = "let out = " .. fnName .. "(" .. table.concat(sourceArgs, ", ") .. ");"
+  end
 
   local lines = GameUtils.createEmpty(gameLineCount)
-  lines[5] = "target args: " .. table.concat(targetArgs, ", ")
-  lines[7] = fnName .. "(" .. table.concat(sourceArgs, ", ") .. ")"
+  lines[3] = language.comment .. " language: " .. language.name
+  lines[5] = language.comment .. " target args: " .. table.concat(targetArgs, ", ")
+  lines[7] = currentCall
 
   local answer = GameUtils.createEmpty(gameLineCount)
+  answer[3] = lines[3]
   answer[5] = lines[5]
   answer[7] = desiredCall
 
@@ -71,6 +108,7 @@ function ArgReorder:getConfig()
     answer_lines = answer,
     expected = expected,
     hint = hint,
+    language = language,
   }
 
   return self.config
@@ -92,6 +130,10 @@ function ArgReorder:checkForWin()
 end
 
 function ArgReorder:render()
+  if self.window and self.window.bufh and self.config and self.config.language then
+    vim.bo[self.window.bufh].filetype = self.config.language.filetype
+  end
+
   local cursorIdx = 7
   return self.config.question_lines, cursorIdx
 end

@@ -36,6 +36,7 @@ local states = {
 local successAdvanceDelayMs = {
     noob = 5000,
 }
+local noobSkipLine = "# NOOB: delete this line to skip level"
 
 local games = {
     ["ci{"] = function(difficulty, window)
@@ -336,6 +337,22 @@ function GameRunner:checkForWin()
         return
     end
 
+    if self.config.difficulty == "noob" and self.skipLine then
+        local allLines = vim.api.nvim_buf_get_lines(self.window.bufh, 0, -1, false)
+        local foundSkipLine = false
+        for _, line in ipairs(allLines) do
+            if line == self.skipLine then
+                foundSkipLine = true
+                break
+            end
+        end
+
+        if not foundSkipLine then
+            self:endRound(true)
+            return
+        end
+    end
+
     if not self.round:checkForWin() then
         return
     end
@@ -457,7 +474,15 @@ function GameRunner:run()
     self.window.buffer:debugLine(string.format(
         "Round %d / %d", self.currentRound, self.config.roundCount))
 
-    self.window.buffer:setInstructions(self.round.getInstructions())
+    local roundInstructions = vim.deepcopy(self.round.getInstructions())
+    self.skipLine = nil
+    if self.config.difficulty == "noob" then
+        self.skipLine = noobSkipLine
+        table.insert(roundInstructions, "")
+        table.insert(roundInstructions, self.skipLine)
+    end
+
+    self.window.buffer:setInstructions(roundInstructions)
     local lines, cursorLine, cursorCol = self.round:render()
     self.window.buffer:render(lines)
 
